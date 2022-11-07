@@ -13,14 +13,14 @@ const articleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    author: [{
+    author: {
         type: Schema.Types.ObjectId,
         ref: 'Profile'
-    }],
-    category: [{
+    },
+    category: {
         type: Schema.Types.ObjectId,
         ref: 'Category'
-    }]
+    }
 })
 
 

@@ -13,12 +13,17 @@ const profileSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    role: [{
+    role: {
         type: Schema.Types.ObjectId,
         ref: 'Role'
-    }]
+    },
+    articles: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Profile'   
+        }
+    ]
 })
-
 
 const Profile = mongoose.model('Profile', profileSchema)
 
