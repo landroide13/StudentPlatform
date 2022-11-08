@@ -65,8 +65,6 @@ app.get('/profiles/:id', async(req, res) => {
 
 
 
-
-
 //Students
 
 //Get students
