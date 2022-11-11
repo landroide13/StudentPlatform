@@ -26,8 +26,8 @@ const profileSchema = new mongoose.Schema({
     ]
 })
 
-profileSchema.statics.findAndValidate = async function(email, password){
-    const foundUser = await this.findOne({ email });
+profileSchema.statics.findAndValidate = async function(name, password){
+    const foundUser = await this.findOne({ name });
     const isValid = await bcrypt.compare(password, foundUser.password);
     return isValid ? foundUser : false;
 }

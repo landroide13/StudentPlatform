@@ -75,7 +75,7 @@ app.post('/profiles', async(req, res) =>{
     const profile = new Profile({ name, password, email });
     await profile.save();
     req.session.profile_id = profile._id;
-    res.redirect('/profiles/index');
+    res.redirect('/profiles');
 })
 
 //Login Profile
@@ -83,12 +83,12 @@ app.get('/profiles/login', (req, res) => {
     res.render('profiles/login')
 })
 
-app.post('/profiles/login', async(req, res) => {
-    const { email, password} = req.body;
-    const foundUser = await Profile.findAndValidate(email, password);
+app.post('/profiles', async(req, res) => {
+    const { name, password} = req.body;
+    const foundUser = await Profile.findAndValidate(name, password);
     if(foundUser){
         req.session.profile_id = foundUser._id;
-        res.redirect('/profiles/index');    
+        res.redirect('/profiles');    
     }else{
         res.redirect('/profiles/login');
     }
@@ -103,7 +103,9 @@ app.post('/logout', (req, res) => {
 
 //Get Profile
 app.get('/profiles/:id', async(req, res) => {
-    res.render('profiles/show');
+    const { id } = req.params;
+    const profile = await Profile.findById(id)
+    res.render('profiles/show', { profile });
 })
 
 
