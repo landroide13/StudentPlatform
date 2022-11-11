@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const profileSchema = new mongoose.Schema({
     name: {
@@ -23,6 +24,17 @@ const profileSchema = new mongoose.Schema({
             ref: 'Article'   
         }
     ]
+})
+
+profileSchema.statics.findAndValidate = async function(email, password){
+    const foundUser = await this.findOne({ email });
+    const isValid = await bcrypt.compare(password, foundUser.password);
+    return isValid ? foundUser : false;
+}
+
+profileSchema.pre('save', async function(next){
+    if(!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 12);
 })
 
 const Profile = mongoose.model('Profile', profileSchema)

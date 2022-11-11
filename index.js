@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const methodoverride = require('method-override');
+
+const bcrypt = require('bcrypt');
+const session = require('express-session');
 const mongoose = require('mongoose');
 
 //DBs
@@ -24,22 +27,22 @@ mongoose.connect(`mongodb://localhost:27017/${testDB1}`)
 
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, '/public')));
-
+app.use(session({secret: 'secret'}));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 app.use(methodoverride('_method'));
-
-//Articles Routes
 
 //Get Home
 app.get('/', async(req, res) => {
     res.render('home');
 })
 
+//Articles Routes
+////////////////
 //Get Articles
 app.get('/articles', async(req, res) => {
     const articles = await Article.find();
-    res.render('article/index', { articles });
+    res.render('articles/index', { articles });
 })
 
 //Create Article by Profile
@@ -61,16 +64,51 @@ app.post('/profiles/:id/articles', async(req, res) => {
     res.redirect(`/profiles/${id}`);
 });
 
-//Profile 
+//Profile
+//Register Profile
+app.get('/profiles/register', (req, res) =>{
+    res.render('profiles/register');
+})
+
+app.post('/profiles', async(req, res) =>{
+    const { name, password, email } = req.body;
+    const profile = new Profile({ name, password, email });
+    await profile.save();
+    req.session.profile_id = profile._id;
+    res.redirect('/profiles/index');
+})
+
+//Login Profile
+app.get('/profiles/login', (req, res) => {
+    res.render('profiles/login')
+})
+
+app.post('/profiles/login', async(req, res) => {
+    const { email, password} = req.body;
+    const foundUser = await Profile.findAndValidate(email, password);
+    if(foundUser){
+        req.session.profile_id = foundUser._id;
+        res.redirect('/profiles/index');    
+    }else{
+        res.redirect('/profiles/login');
+    }
+})
+
+//Logout
+app.post('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('login');
+})
+
+
 //Get Profile
 app.get('/profiles/:id', async(req, res) => {
-    const articles = await Article.find();
-    res.render('profile/show', { articles });
+    res.render('profiles/show');
 })
 
 
 //Students
-
+//////////////////
 //Get all articles
 
 
