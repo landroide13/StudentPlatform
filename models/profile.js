@@ -20,7 +20,7 @@ const profileSchema = new mongoose.Schema({
     articles: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Profile'   
+            ref: 'Article'   
         }
     ]
 })

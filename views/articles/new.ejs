@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+
+    <h2>Create Article</h2>
+    <hr>
+    <form action="/profiles/<%= profile._id %>/articles" method="post">
+
+        <div class="">
+            <label for="name">Article Name</label>
+             <input type="text" name="name" id="name" placeholder="Farm Name"><br>
+        </div>
+
+        <div class="">
+            <label for="content">Content</label>
+            <textarea name="content" id="content"></textarea>
+        </div>
+
+        <div class="">
+            <label for="category">Category</label>
+            <select name="category" id="category" placeholder="category">
+                <% for(let cat of categories) {%>
+                    <option value="<%= cat %>"><%= cat %></option>
+                <% } %>
+            </textarea>
+        </div>
+
+         </br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+
+
+
+</div>
+
+<%- include('../partials/footer') %>

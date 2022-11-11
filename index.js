@@ -31,13 +31,18 @@ app.use(methodoverride('_method'));
 
 //Articles Routes
 
-//Get Articles
-app.get('/profiles', async(req, res) => {
-    const articles = await Article.find();
-    res.render('profile/index', { articles });
+//Get Home
+app.get('/', async(req, res) => {
+    res.render('home');
 })
 
-//Create Article by ID
+//Get Articles
+app.get('/articles', async(req, res) => {
+    const articles = await Article.find();
+    res.render('article/index', { articles });
+})
+
+//Create Article by Profile
 app.get('/profiles/:id/articles/new', async(req, res) => {
     const { id } = req.params;
     const profile = await Profile.findById(id);
@@ -64,14 +69,10 @@ app.get('/profiles/:id', async(req, res) => {
 })
 
 
-
 //Students
 
-//Get students
-app.get('/students', async(req, res) => {
-    const articles = await Article.find();
-    res.render('students/index', { articles });
-})
+//Get all articles
+
 
 
 
