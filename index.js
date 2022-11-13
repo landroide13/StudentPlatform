@@ -75,7 +75,7 @@ app.post('/profiles', async(req, res) =>{
     const profile = new Profile({ name, password, email });
     await profile.save();
     req.session.profile_id = profile._id;
-    res.redirect('/profiles');
+    res.redirect('/articles');
 })
 
 //Login Profile
@@ -88,7 +88,7 @@ app.post('/profiles', async(req, res) => {
     const foundUser = await Profile.findAndValidate(name, password);
     if(foundUser){
         req.session.profile_id = foundUser._id;
-        res.redirect('/profiles');    
+        res.redirect('/articles');    
     }else{
         res.redirect('/profiles/login');
     }
