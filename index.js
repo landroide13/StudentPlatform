@@ -32,6 +32,14 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 app.use(methodoverride('_method'));
 
+//Middleware
+const requiredLogin = (req, res, next) =>{
+    if(!req.session.profile_id){
+        return res.redirect('/');
+     }
+     next();
+}
+
 //Get Home
 app.get('/', async(req, res) => {
     res.render('home');
@@ -40,7 +48,7 @@ app.get('/', async(req, res) => {
 //Articles Routes
 ////////////////
 //Get Articles
-app.get('/articles', async(req, res) => {
+app.get('/articles',requiredLogin ,async(req, res) => {
     const articles = await Article.find();
     res.render('articles/index', { articles });
 })
@@ -64,13 +72,17 @@ app.post('/profiles/:id/articles', async(req, res) => {
     res.redirect(`/profiles/${id}`);
 });
 
+//Edit Article
+
+
 //Profile
+/////////////////
 //Register Profile
 app.get('/profiles/register', (req, res) =>{
     res.render('profiles/register');
 })
 
-app.post('/profiles', async(req, res) =>{
+app.post('/profiles/register', async(req, res) =>{
     const { name, password, email } = req.body;
     const profile = new Profile({ name, password, email });
     await profile.save();
@@ -83,7 +95,7 @@ app.get('/profiles/login', (req, res) => {
     res.render('profiles/login')
 })
 
-app.post('/profiles', async(req, res) => {
+app.post('/profiles/login', async(req, res) => {
     const { name, password} = req.body;
     const foundUser = await Profile.findAndValidate(name, password);
     if(foundUser){
