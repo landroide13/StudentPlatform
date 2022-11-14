@@ -34,13 +34,11 @@ app.use(methodoverride('_method'));
 
 //Middleware
 app.use((req, res, next) => {
-    const { user, id } = req.session
-    res.locals.currentUser = user;
+    res.locals.currentUser = req.session.profile_id;
     next();
 })
 
 const requiredLogin = (req, res, next) =>{
-    console.log(res.session);
     if(!req.session.profile_id){
         return res.redirect('/');
      }
