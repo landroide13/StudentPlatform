@@ -2,28 +2,32 @@
 
 <div class="container">
 
-    <h2>Register</h2>
-    <hr>
-    <form action="/profiles/register" method="post">
-        <div class="">
-            <label for="name">Enter Username</label>
-            <input type="text" name="name" id="name" placeholder="Username">
-         </div>
-         <div class="">
-            <label for="email">Enter Email</label>
-            <input type="email" name="email" id="email" placeholder="Email">
-         </div>
-         <div class="">
-            <label for="password">Enter Password</label>
-             <input type="password" name="password" id="password" placeholder="Password">
-         </div>
-         <div class="">
-            <input type="role" name="role" id="role" hidden>
-        </div>
-         <div class="">
-            <button type="submit">SignUp</button>
-         </div>
-    </form>
+   <div class="card text-bg-dark mt-5 col-md-8 offset-md-4" style="width: 30rem;">
+      <div class="card-body">
+         <h2 class="text-center card-title">Register</h2>
+         <hr>
+         <form action="/profiles/register" method="post">
+            <div class="mt-3">
+                  <label class="form-label" for="name">Enter Username</label>
+                  <input class="form-control" type="text" name="name" id="name" placeholder="Username">
+               </div>
+               <div class="mt-3">
+                  <label class="form-label" for="email">Enter Email</label>
+                  <input class="form-control" type="email" name="email" id="email" placeholder="Email">
+               </div>
+               <div class="mt-3">
+                  <label class="form-label" for="password">Enter Password</label>
+                  <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+               </div>
+               <div class="mt-3">
+                  <input type="role" name="role" id="role" hidden>
+            </div>
+               <div class="mt-3">
+                  <button  class="btn btn-primary" type="submit">SignUp</button>
+               </div>
+         </form>
+      </div>
+   </div>
 
 
 

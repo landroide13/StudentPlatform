@@ -1,36 +1,34 @@
 <%- include('../partials/header') %>
 
-<div class="container">
+<div class="container col-md-8 mt-5">
 
-    <h2>Create Article</h2>
-    <hr>
-    <form action="/profiles/<%= profile._id %>/articles" method="post">
+    <div class="">
+        <h2>Create Article</h2>
+        <hr>
+        <form class="" action="/profiles/<%= profile._id %>/articles" method="post">
 
-        <div class="">
-            <label for="name">Article Name</label>
-             <input type="text" name="name" id="name" placeholder="Article Name"><br>
-        </div>
+            <div class="mb-3 col-md-6">
+                <label class="form-label" for="name">Article Name</label>
+                <input class="form-control" type="text" name="name" id="name" placeholder="Article Name"><br>
+            </div>
 
-        <div class="">
-            <label for="text">Article Content</label>
-            <textarea name="text" id="text"></textarea>
-        </div>
+            <div class="mb-3">
+                <label class="form-label" for="text">Article Content</label>
+                <textarea class="form-control" name="text" id="text"></textarea>
+            </div>
 
-        <div class="">
-            <label for="category">Category</label>
-            <select name="category" id="category" placeholder="Category">
-                <% for(let cat of categories) { %>
-                    <option value="<%= cat._id %>"><%= cat.name %></option>
-                <% } %>
-            </select>
-        </div>
-
-
-
-         </br>
-
-        <button type="submit">Submit</button>
-    </form>
+            <div class="mb-3 col-md-2">
+                <label for="category">Category</label>
+                <select class="form-select" name="category" id="category" placeholder="Category">
+                    <% for(let cat of categories) { %>
+                        <option value="<%= cat._id %>"><%= cat.name %></option>
+                    <% } %>
+                </select>
+            </div>
+            </br>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
 
 </div>
 

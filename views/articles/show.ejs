@@ -1,18 +1,15 @@
 <%- include('../partials/header') %>
 
 
-<div class="container">
+<div class="container mt-5 col-md-8">
 
-    <div class="">
-        <h4><%= article.name %></h4>
-    </div>
+    <div class="card text-bg-dark mt-3">
+        <div class="card-body">
+            <h4 class="card-title"><%= article.name %></h4>
+            <p class="card-text"><%= article.text %></p>
 
-    <div class="">
-        <p for=""><%= article.text %></p>
-    </div>
-
-    <div class="">
-        <p for="">By: <%= article.author.name %></p>
+            <p>By: <span><%= article.author.name %></span></p>
+        </div>
     </div>
 
 

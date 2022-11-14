@@ -27,13 +27,20 @@ mongoose.connect(`mongodb://localhost:27017/${testDB1}`)
 
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(session({secret: 'secret'}));
+app.use(session({secret: 'secret', resave: false, saveUninitialized: false}));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 app.use(methodoverride('_method'));
 
 //Middleware
+app.use((req, res, next) => {
+    const { user, id } = req.session
+    res.locals.currentUser = user;
+    next();
+})
+
 const requiredLogin = (req, res, next) =>{
+    console.log(res.session);
     if(!req.session.profile_id){
         return res.redirect('/');
      }
@@ -45,8 +52,9 @@ app.get('/', async(req, res) => {
     res.render('home');
 })
 
+/////////////////////////////////
 //Articles Routes
-////////////////
+////////////////////////////////
 //Get Articles
 app.get('/articles',requiredLogin ,async(req, res) => {
     const articles = await Article.find();
@@ -105,9 +113,9 @@ app.delete('/articles/:id', async(req, res) => {
     res.redirect(`/profiles/${author}`);
 })
 
-
+/////////////////////////////////////
 //Profile
-/////////////////
+////////////////////////////////////
 //Register Profile
 app.get('/profiles/register', (req, res) =>{
     res.render('profiles/register');
@@ -153,7 +161,7 @@ app.get('/profiles/:id', async(req, res) => {
 
 
 //Students
-//////////////////
+///////////////////////////////////
 //Get all articles
 
 
