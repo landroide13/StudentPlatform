@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+
+    <h2>Edit Article</h2>
+    <hr>
+    <form action="/articles/<%= article._id %>?_method=PUT" method="post">
+
+        <div class="">
+            <label for="name">Article Name</label>
+             <input type="text" name="name" id="name" value="<%= article.name %>"><br>
+        </div>
+
+        <div class="">
+            <label for="content">Article Content</label>
+            <textarea name="text" id="text"><%= article.text %></textarea>
+        </div>
+
+        <div class="">
+            <label for="category">Category</label>
+            <select name="category" id="category" placeholder="category">
+                <% for(let cat of categories) {%>
+                    <option value="<%= cat._id %>" ><%= cat.name %></option>
+                <% } %>
+            </select>
+        </div>
+
+         </br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+</div>
+
+<%- include('../partials/footer') %>

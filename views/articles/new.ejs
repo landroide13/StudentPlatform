@@ -8,30 +8,29 @@
 
         <div class="">
             <label for="name">Article Name</label>
-             <input type="text" name="name" id="name" placeholder="Farm Name"><br>
+             <input type="text" name="name" id="name" placeholder="Article Name"><br>
         </div>
 
         <div class="">
-            <label for="content">Content</label>
-            <textarea name="content" id="content"></textarea>
+            <label for="text">Article Content</label>
+            <textarea name="text" id="text"></textarea>
         </div>
 
         <div class="">
             <label for="category">Category</label>
-            <select name="category" id="category" placeholder="category">
-                <% for(let cat of categories) {%>
-                    <option value="<%= cat %>"><%= cat %></option>
+            <select name="category" id="category" placeholder="Category">
+                <% for(let cat of categories) { %>
+                    <option value="<%= cat._id %>"><%= cat.name %></option>
                 <% } %>
-            </textarea>
+            </select>
         </div>
+
+
 
          </br>
 
         <button type="submit">Submit</button>
     </form>
-
-
-
 
 </div>
 

@@ -3,6 +3,20 @@
 
 <div class="container">
     <h1>Articles</h1>
+
+    <ul>
+        <% if(articles.length === 0){ %>
+            <h3>There are No Articles</h3>
+        <% } else { %>    
+            <% for(let a of articles){ %>
+                <li><a href="/articles/<%= a._id %>"><%= a.name %></a></li>
+            <% } %>
+        <% } %>
+    </ul>
+
+    <a href="/profiles/<%= userID %>/articles/new">Add Article</a>
+
+
 </div>
 
 

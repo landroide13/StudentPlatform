@@ -50,7 +50,8 @@ app.get('/', async(req, res) => {
 //Get Articles
 app.get('/articles',requiredLogin ,async(req, res) => {
     const articles = await Article.find();
-    res.render('articles/index', { articles });
+    const userID = req.session.profile_id;
+    res.render('articles/index', { articles, userID });
 })
 
 //Create Article by Profile
@@ -64,7 +65,8 @@ app.get('/profiles/:id/articles/new', async(req, res) => {
 app.post('/profiles/:id/articles', async(req, res) => {
     const { id } = req.params;
     const profile = await Profile.findById(id);
-    const article = new Article(req.body);
+    const { name , text, category, author } = req.body;
+    const article = new Article({ name , text, author, category});
     profile.articles.push(article);
     article.author = profile;
     await profile.save();
@@ -73,6 +75,35 @@ app.post('/profiles/:id/articles', async(req, res) => {
 });
 
 //Edit Article
+app.get('/articles/:id/edit', async(req, res) =>{
+    const { id } = req.params;
+    const article = await Article.findById(id).populate('author');
+    const categories = await Category.find();
+    res.render('articles/edit', { article, categories });
+})
+
+app.put('/articles/:id', async(req, res) => {
+    const { id } = req.params;
+    const article = await Article.findByIdAndUpdate(id, req.body, {runValidators: true, new: true})
+    const author = article.author;
+    res.redirect(`/profiles/${author}`)
+})
+
+//Get Article
+app.get('/articles/:id/show', async(req, res) =>{
+    const { id } = req.params;
+    const article = await Article.findById(id).populate('author');
+    res.render(`articles/show`, { article });
+})
+
+
+//Delete Article
+app.delete('/articles/:id', async(req, res) => {
+    const { id } = req.params;
+    const article = await Article.findByIdAndDelete(id);
+    const author = article.author;
+    res.redirect(`/profiles/${author}`);
+})
 
 
 //Profile
@@ -107,16 +138,16 @@ app.post('/profiles/login', async(req, res) => {
 })
 
 //Logout
-app.post('/logout', (req, res) => {
+app.post('/profiles/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('login');
+    res.redirect('/profiles/login');
 })
 
 
 //Get Profile
 app.get('/profiles/:id', async(req, res) => {
     const { id } = req.params;
-    const profile = await Profile.findById(id)
+    const profile = await Profile.findById(id).populate('articles');
     res.render('profiles/show', { profile });
 })
 

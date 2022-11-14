@@ -4,6 +4,33 @@
 
     <h2>Profile <%= profile.name %></h2>
     <hr>
+    <h4>My Articles</h4>
+    <hr>
+    <ul>
+        <% for(let pa of profile.articles) { %>
+            <li><a href="/articles/<%= pa._id %>/show"><%= pa.name %></a>
+                <a href="/articles/<%= pa._id %>/edit">Edit</a>
+               
+                <form action="/articles/<%= pa._id %>?_method=DELETE" method="POST">
+                    <button>Delete</button>
+                </form>
+        
+            </li>
+       <% } %>     
+    </ul>
+
+
+    <form action="/profiles/<%= profile._id %>?_method=DELETE" method="post">
+        <button>Delete</button>
+    </form>
+
+    <br>
+    <div class=""><a href="/profiles/<%= profile._id %>/articles/new">Create Article</a></div>
+    </br>
+    <div class=""><a href="/profiles/<%= profile._id %>/edit">Edit</a></div>
+    </br>
+    <div class=""><a href="/articles">Articles</a></div>
+    </br>
 
 
 
