@@ -144,9 +144,9 @@ app.post('/profiles/login', async(req, res) => {
 })
 
 //Logout
-app.post('/profiles/logout', (req, res) => {
+app.get('/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('/profiles/login');
+    res.redirect('/');
 })
 
 

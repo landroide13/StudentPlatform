@@ -27,16 +27,19 @@
               </li>
               <% }else{%>
               <li class="nav-item">
-                <a class="nav-link" href="/">My Articles</a>
+                <a class="nav-link" href="/articles">Articles</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/articles/new">Create Article</a>
+                <a class="nav-link" href="/profiles/<%= currentUser %>/articles/new">Create Article</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/">Tutors</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/">Students</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
               </li>
               <% } %>
             </ul>
