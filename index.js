@@ -5,6 +5,7 @@ const methodoverride = require('method-override');
 
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const flash = require('connect-flash');
 const mongoose = require('mongoose');
 
 //DBs
@@ -28,9 +29,11 @@ mongoose.connect(`mongodb://localhost:27017/${testDB1}`)
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(session({secret: 'secret', resave: false, saveUninitialized: false}));
+app.use(flash());
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 app.use(methodoverride('_method'));
+
 
 //Middleware
 app.use((req, res, next) => {
@@ -44,6 +47,12 @@ const requiredLogin = (req, res, next) =>{
      }
      next();
 }
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 //Get Home
 app.get('/', async(req, res) => {
@@ -77,6 +86,7 @@ app.post('/profiles/:id/articles', async(req, res) => {
     article.author = profile;
     await profile.save();
     await article.save();
+    req.flash('success', 'Successfully Created');
     res.redirect(`/profiles/${id}`);
 });
 
@@ -92,6 +102,7 @@ app.put('/articles/:id', async(req, res) => {
     const { id } = req.params;
     const article = await Article.findByIdAndUpdate(id, req.body, {runValidators: true, new: true})
     const author = article.author;
+    req.flash('success', 'Successfully Updated..')
     res.redirect(`/profiles/${author}`)
 })
 
@@ -108,6 +119,7 @@ app.delete('/articles/:id', async(req, res) => {
     const { id } = req.params;
     const article = await Article.findByIdAndDelete(id);
     const author = article.author;
+    req.flash('success', 'Successfully Deleted..')
     res.redirect(`/profiles/${author}`);
 })
 
@@ -124,6 +136,7 @@ app.post('/profiles/register', async(req, res) =>{
     const profile = new Profile({ name, password, email });
     await profile.save();
     req.session.profile_id = profile._id;
+    req.flash('success', 'Successfully Registered..');
     res.redirect('/articles');
 })
 
@@ -137,8 +150,10 @@ app.post('/profiles/login', async(req, res) => {
     const foundUser = await Profile.findAndValidate(name, password);
     if(foundUser){
         req.session.profile_id = foundUser._id;
+        req.flash('success', 'Successfully Logged in..');
         res.redirect('/articles');    
     }else{
+        req.flash('error', 'Sorry, try again..')
         res.redirect('/profiles/login');
     }
 })
@@ -150,7 +165,7 @@ app.get('/logout', (req, res) => {
 })
 
 
-//Get Profile
+//Show Profile
 app.get('/profiles/:id', async(req, res) => {
     const { id } = req.params;
     const profile = await Profile.findById(id).populate('articles');
