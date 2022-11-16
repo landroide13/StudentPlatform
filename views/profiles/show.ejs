@@ -10,15 +10,17 @@
         <% for(let pa of profile.articles) { %>
             <li class="card mt-3 col-md-8 offset-md-2  text-bg-dark">
                 <div class="card-body">
-                    <div class="d-flex justify-content-center">
-                        <a class="card-title" href="/articles/<%= pa._id %>/show"><%= pa.name %></a>
-                    </div>
-                    <div class="d-flex justify-content-evenly">
-                        <a class="btn btn-sm btn-success" href="/articles/<%= pa._id %>/edit">Edit</a>
-                
-                        <form action="/articles/<%= pa._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        </form>
+                    <div class="d-flex">
+                        <h5 class="card-title flex-fill"><%= pa.name %></h5>
+                        
+                        <div class="d-flex justify-content-end ">
+                            <a class="btn btn-sm btn-success flex-fill" href="/articles/<%= pa._id %>/edit">Edit</a>
+                            <a class="btn btn-sm btn-primary flex-fill" href="/articles/<%= pa._id %>/show">Show</a>
+                            <form action="/articles/<%= pa._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
+                        
                     </div>
                     
                 </div>

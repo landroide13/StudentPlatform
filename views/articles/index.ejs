@@ -9,7 +9,14 @@
             <h3 class="text-center">There are No Articles</h3>
         <% } else { %>    
             <% for(let a of articles){ %>
-                <li class="list-group-item text-center"><a href="/articles/<%= a._id %>/show"><%= a.name %></a></li>
+                <li class="card mt-3 col-md-8 offset-md-2 text-bg-dark">
+                    <h4><%= a.name %></h4>
+                    <h4><%= a.category %></h4>
+                    <% category = categories.filter(c => c.id !== a.category) %>
+
+                    <% category %>
+                    <a class="btn btn-sm btn-primary" href="/articles/<%= a._id %>/show">show</a>
+                </li>
             <% } %>
         <% } %>
     </ul>

@@ -20,6 +20,17 @@ const articleSchema = new mongoose.Schema({
     }
 })
 
+//Query Middleware
+/*
+articleSchema.post('findOneAndDelete', async function(article){
+    if(artilce.products.length){
+       const res = await Product.deleteMany({ _id: {$in: farm.products } })
+       console.log(res);
+    }
+    }
+)
+*/
+
 
 const Article = mongoose.model('Article', articleSchema)
 

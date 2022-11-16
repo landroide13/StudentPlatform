@@ -34,8 +34,9 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 app.use(methodoverride('_method'));
 
-
+///////////////////////
 //Middleware
+//////////////////////
 app.use((req, res, next) => {
     res.locals.currentUser = req.session.profile_id;
     next();
@@ -62,11 +63,13 @@ app.get('/', async(req, res) => {
 /////////////////////////////////
 //Articles Routes
 ////////////////////////////////
+
 //Get Articles
 app.get('/articles',requiredLogin ,async(req, res) => {
     const articles = await Article.find();
     const userID = req.session.profile_id;
-    res.render('articles/index', { articles, userID });
+    const categories = await Category.find();
+    res.render('articles/index', { articles, userID, categories });
 })
 
 //Create Article by Profile
@@ -94,8 +97,9 @@ app.post('/profiles/:id/articles', async(req, res) => {
 app.get('/articles/:id/edit', async(req, res) =>{
     const { id } = req.params;
     const article = await Article.findById(id).populate('author');
+    const articleCat = await Category.findById(article.category)
     const categories = await Category.find();
-    res.render('articles/edit', { article, categories });
+    res.render('articles/edit', { article, categories, articleCat });
 })
 
 app.put('/articles/:id', async(req, res) => {
@@ -109,7 +113,7 @@ app.put('/articles/:id', async(req, res) => {
 //Get Article
 app.get('/articles/:id/show', async(req, res) =>{
     const { id } = req.params;
-    const article = await Article.findById(id).populate('author');
+    const article = await Article.findById(id).populate('author').populate('category');
     res.render(`articles/show`, { article });
 })
 
@@ -126,14 +130,16 @@ app.delete('/articles/:id', async(req, res) => {
 /////////////////////////////////////
 //Profile
 ////////////////////////////////////
+
 //Register Profile
-app.get('/profiles/register', (req, res) =>{
-    res.render('profiles/register');
+app.get('/profiles/register', async(req, res) =>{
+    const profileRoles = await Role.find();
+    res.render('profiles/register', { profileRoles });
 })
 
 app.post('/profiles/register', async(req, res) =>{
-    const { name, password, email } = req.body;
-    const profile = new Profile({ name, password, email });
+    const { name, password, email, role } = req.body;
+    const profile = new Profile({ name, password, email, role });
     await profile.save();
     req.session.profile_id = profile._id;
     req.flash('success', 'Successfully Registered..');
@@ -164,7 +170,6 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 })
 
-
 //Show Profile
 app.get('/profiles/:id', async(req, res) => {
     const { id } = req.params;
@@ -172,15 +177,26 @@ app.get('/profiles/:id', async(req, res) => {
     res.render('profiles/show', { profile });
 })
 
-
 //Students
 ///////////////////////////////////
-//Get all articles
+//Get all Students
+app.get('/students',requiredLogin, async(req, res) => {
+    const { id } = req.params;
+    const students = await Student.find();
+    res.render('students', { students });
+})
+
+//Delete Student
+app.delete('/students/:id', async(req, res) => {
+    const { id } = req.params;
+    const student = await Student.findByIdAndDelete(id);
+    req.flash('success', 'Successfully Deleted..')
+    res.redirect(`/students`);
+})
 
 
 
-
-
+////////////////////////
 //Server Runner........
 app.listen(8080, ()=> {
     console.log('App running at 8080')
