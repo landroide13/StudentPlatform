@@ -1,6 +1,5 @@
 <%- include('../partials/header') %>
 
-
 <div class="container mt-5 col-md-8">
 
     <div class="card text-bg-dark mt-3">
@@ -8,14 +7,15 @@
             <h4 class="card-title"><%= article.name %></h4>
             <p class="card-text"><%= article.text %></p>
             <p>Category: <%= article.category.name %></p>
-            <p>By: <%= article.author.name %></p>
+            <% if(article.author){%>
+                <p>By: <%= article.author.name %></p>
+            <% } else { %>
+                <p>Unknown</p>
+            <% } %>    
         </div>
     </div>
 
 
 </div>
-
-
-
 
 <%- include('../partials/footer') %>

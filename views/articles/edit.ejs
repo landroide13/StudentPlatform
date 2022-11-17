@@ -18,10 +18,47 @@
             </div>
 
             <div class="mb-3 col-md-2">
-                <label class="form-label" for="category">Category</label>
-                <select class="form-select" name="category" id="category" placeholder="category">
-                    <% for(let cat of categories) {%>
-                        <option value="<%= cat._id %>" ><%= cat.name %></option>
+                <label class="form-label" for="name">Year</label>
+                <input class="form-control" type="text" name="year" id="year" placeholder="Year"><br>
+            </div>
+
+            <div class="mb-3 col-md-2">
+                <label class="form-label" for="name">Medium</label>
+                <input class="form-control" type="text" name="medium" id="mediumr" placeholder="Medium"><br>
+            </div>
+
+            <div class="mb-3 col-md-2">
+                <label class="form-label" for="name">Dimensions</label>
+                <input class="form-control" type="text" name="dim" id="dim" placeholder="Dimensions"><br>
+            </div>
+
+            <div class="mb-3 col-md-2">
+                <label class="form-label" for="name">Location</label>
+                <input class="form-control" type="text" name="loc" id="loc" placeholder="Location"><br>
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <label for="category">Author Name</label>
+                <select class="form-select" name="category" id="category" placeholder="Category">
+                    <% for(let au of authors) { %>
+                        <option value="<%= au._id %>" <%= article.author === au ? 'selected' : '' %> ><%= au.name %></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="mb-3 col-md-2">
+                <label for="category">Category</label>
+                <select class="form-select" name="category" id="category" placeholder="Category">
+                    <% for(let cat of categories) { %>
+                        <option value="<%= cat._id %>" <%= article.category === cat ? 'selected' : '' %> ><%= cat.name %></option>
+                    <% } %>
+                </select>
+            </div>
+            <div class="mb-3 col-md-2">
+                <label for="category">Type</label>
+                <select class="form-select" name="category" id="category" placeholder="Category">
+                    <% for(let t of types) { %>
+                        <option value="<%= t._id %>" <%= article.type === t ? 'selected' : '' %>><%= t.name %></option>
                     <% } %>
                 </select>
             </div>

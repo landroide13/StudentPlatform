@@ -4,30 +4,17 @@
 
     <h2 class="text-center">My Profile, Welcome <%= profile.name %></h2>
     <hr>
-    <h4 class="text-center">My Articles</h4>
-    <hr>
-    <ul>
-        <% for(let pa of profile.articles) { %>
-            <li class="card mt-3 col-md-8 offset-md-2  text-bg-dark">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <h5 class="card-title flex-fill"><%= pa.name %></h5>
-                        
-                        <div class="d-flex justify-content-end ">
-                            <a class="btn btn-sm btn-success flex-fill" href="/articles/<%= pa._id %>/edit">Edit</a>
-                            <a class="btn btn-sm btn-primary flex-fill" href="/articles/<%= pa._id %>/show">Show</a>
-                            <form action="/articles/<%= pa._id %>?_method=DELETE" method="POST">
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            </form>
-                        </div>
-                        
-                    </div>
-                    
-                </div>
-            </li>
-       <% } %>     
-    </ul>
-
+    <div class="card text-bg-dark col-md-8 offset-md-4" style="width: 18rem;">
+        <div class="card-body">
+            <div class="d-flex">
+                <h5 class="card-title flex-fill"><%= profile.name %></h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><%= profile.email %></li>
+                    <li class="list-group-item"><%= profile.role %></li>
+                </ul>
+            </div>
+        </div> 
+    </div>   
 </div>
 
 <%- include('../partials/footer') %>

@@ -12,24 +12,34 @@ const articleSchema = new mongoose.Schema({
     },
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'Profile'
+        ref: 'Author',
+        default: 'Unknown'
     },
     category: {
         type: Schema.Types.ObjectId,
         ref: 'Category'
+    },
+    type: {
+        type: Schema.Types.ObjectId,
+        ref: 'Type'
+    },
+    year:{
+        type: String,
+    },
+    medium:{
+        type: String,
+    },
+    location:{
+        type: String,
+    },
+    developer:{
+        type: String,
+    },
+    designBy:{
+        type: String,
     }
 })
 
-//Query Middleware
-/*
-articleSchema.post('findOneAndDelete', async function(article){
-    if(artilce.products.length){
-       const res = await Product.deleteMany({ _id: {$in: farm.products } })
-       console.log(res);
-    }
-    }
-)
-*/
 
 
 const Article = mongoose.model('Article', articleSchema)

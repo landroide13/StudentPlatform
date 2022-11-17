@@ -18,13 +18,7 @@ const profileSchema = new mongoose.Schema({
     role: {
         type: Schema.Types.ObjectId,
         ref: 'Role'
-    },
-    articles: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Article'   
-        }
-    ]
+    }
 })
 
 profileSchema.statics.findAndValidate = async function(name, password){
@@ -38,6 +32,7 @@ profileSchema.pre('save', async function(next){
     this.password = await bcrypt.hash(this.password, 12);
 })
 
+/*
 //Query Middleware
 profileSchema.post('findOneAndDelete', async function(profile){
     if(profile.articles.length){
@@ -46,6 +41,7 @@ profileSchema.post('findOneAndDelete', async function(profile){
     }
     }
 )
+*/
 
 const Profile = mongoose.model('Profile', profileSchema)
 
