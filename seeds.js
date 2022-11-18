@@ -1,5 +1,7 @@
 const Author = require('./models/author');
 const Type = require('./models/type');
+const Category = require('./models/category');
+const Role = require('./models/role');
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/testDB1')
@@ -8,16 +10,16 @@ mongoose.connect('mongodb://localhost:27017/testDB1')
         })
         .catch(err => console.log(err))
 
-const Articles = [
-    {name: 'Green Grapes', price: 5.6, category: 'fruits'},
-    {name: 'Bananas', price: 6, category: 'fruits'},
-    {name: 'Celery', price: 5.4, category: 'veggies'}
+const categories = [
+    {name: 'Art'},
+    {name: 'Mathematics'},
+    {name: 'Technology'},
 ]
 
 
 const authors = [
     {name: 'Claude Monet', nationality:'French', born: '1840', died:'1926', knownFor:'Painter', notableWork:'Water Lilies'},
-    
+    {name: 'Steve Jobs', nationality:'EEUU', born: '1969', died:'2011', knownFor:'Apple', notableWork:'Apple Corp.'}
 ]
 
 const types = [
@@ -28,18 +30,23 @@ const types = [
     {name: 'Painting'},
 ]
 
-/*
-const p = new Product({name: 'Ruby Grapes', price: 50, category: 'fruits'})
+const roles = [
+    {name: 'Admin'},
+    {name: 'Tutor'},
+]
 
-p.save().then(data => console.log(data))
-*/
-
-
-//const a = new Author({name: 'Claude Monet', nationality:'French', born: '1840', died:'1926', knownFor:'Painter', notableWork:'Water Lilies'})
-
-//Type.insertMany(types).then(res =>  console.log(res))
 
 //a.save().then(data => console.log(data))
+//const a = new Author({name: 'Claude Monet', nationality:'French', born: '1840', died:'1926', knownFor:'Painter', notableWork:'Water Lilies'})
+
+
+//Uncomment thi last lines to generate and populate DB(-> node seed.js)
+//////////////////////////////////////////
+//Type.insertMany(types).then(res =>  console.log(res))
+//Role.insertMany(roles).then(res =>  console.log(res))
+//Author.insertMany(authors).then(res =>  console.log(res))
+//Category.insertMany(categories).then(res =>  console.log(res))
+
 
 
 
