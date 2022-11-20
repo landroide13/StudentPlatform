@@ -1,5 +1,7 @@
 const Article = require('../models/article');
 
+
+
 exports.getArticles = (req, res) => {
     const articles = Article.find();
     articles.then(data => res.json(data))

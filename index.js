@@ -71,6 +71,8 @@ app.use((req, res, next) => {
     next();
 })
 
+
+
 //Get Home
 app.get('/', async(req, res) => {
     res.render('home');
@@ -143,7 +145,7 @@ app.get('/articles/:id/show', async(req, res) =>{
 app.delete('/articles/:id', async(req, res) => {
     const { id } = req.params;
     const article = await Article.findByIdAndDelete(id);
-    req.flash('success', 'Successfully Deleted..')
+    req.flash('success', 'Successfully Deleted..');
     res.redirect(`/articles`);
 })
 
@@ -193,7 +195,7 @@ app.get('/logout', (req, res) => {
 //Show Profile
 app.get('/profiles/:id', async(req, res) => {
     const { id } = req.params;
-    const profile = await Profile.findById(id)
+    const profile = await Profile.findById(id).populate('role')
     res.render('profiles/show', { profile });
 })
 

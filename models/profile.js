@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 const bcrypt = require('bcrypt');
-const Article = require('./article');
+
 
 const profileSchema = new mongoose.Schema({
     name: {
@@ -31,17 +31,6 @@ profileSchema.pre('save', async function(next){
     if(!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 12);
 })
-
-/*
-//Query Middleware
-profileSchema.post('findOneAndDelete', async function(profile){
-    if(profile.articles.length){
-       const res = await Article.deleteMany({ _id: {$in: profile.articles } })
-       console.log(res);
-    }
-    }
-)
-*/
 
 const Profile = mongoose.model('Profile', profileSchema)
 

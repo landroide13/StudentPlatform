@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
+var cors = require('cors');
 
 const helpers = require('../helpers/material');
 
 router.route('/')
-      .get(helpers.getArticles)
+      .get(cors(), helpers.getArticles)
 
 router.route('/:id')
-      .get(helpers.getArticle)
+      .get(cors(),helpers.getArticle)
          
 
 module.exports = router;
