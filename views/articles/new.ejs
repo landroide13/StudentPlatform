@@ -34,7 +34,7 @@
 
             <div class="mb-3 col-md-2">
                 <label class="form-label" for="name">Location</label>
-                <input class="form-control" type="text" name="loc" id="loc" placeholder="Location"><br>
+                <input class="form-control" type="text" name="location" id="location" placeholder="Location"><br>
             </div>
 
             <div class="mb-3 col-md-4">
@@ -48,12 +48,12 @@
 
             <div class="mb-3 col-md-2">
                 <label class="form-label" for="name">Design By</label>
-                <input class="form-control" type="text" name="des" id="des" placeholder="Design By"><br>
+                <input class="form-control" type="text" name="designBy" id="designBy" placeholder="Design By"><br>
             </div>
 
             <div class="mb-3 col-md-2">
                 <label class="form-label" for="name">Develop</label>
-                <input class="form-control" type="text" name="dev" id="dev" placeholder="Develop"><br>
+                <input class="form-control" type="text" name="developer" id="developer" placeholder="Develop"><br>
             </div>
 
             <div class="mb-3 col-md-2">
@@ -66,7 +66,7 @@
             </div>
             <div class="mb-3 col-md-2">
                 <label for="category">Type</label>
-                <select class="form-select" name="category" id="category" placeholder="Category">
+                <select class="form-select" name="type" id="type" placeholder="Type">
                     <% for(let t of types) { %>
                         <option value="<%= t._id %>"><%= t.name %></option>
                     <% } %>

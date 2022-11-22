@@ -9,18 +9,18 @@
                 <h3 class="text-center">There are No Students Register</h3>
             <% } else { %>    
                 <% for(let s of students){ %>
-                    
                         <div class="card text-bg-dark" style="width: 22rem;">
                             <div class="card-body">
                                 <h6 class="card-subtitle">Student Id: <%= s._id %></h6>
                                 <h5 class="card-title">Name: <%= s.name %></h5>
                                 <p class="card-text">Email: <%= s.email %></p>
+                               
                                 <form action="/students/<%= s._id %>?_method=DELETE" method="POST">
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </form>
+                    
                             </div>
                         </div>
-                   
                 <% } %>
             <% } %>
         </ul>

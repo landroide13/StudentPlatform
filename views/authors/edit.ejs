@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+
+<div class="container col-md-8 mt-5">
+
+    <div class="">
+        <h2>Edit Author</h2>
+        <hr>
+        <form class="" action="/authors/<%= author._id %>?_method=PUT" method="post">
+
+            <div class="mb-3 col-md-6">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name" placeholder="Name" value="<%= author.name %>"><br>
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <label class="form-label" for="nationality">Nationality</label>
+                <input class="form-control" type="text" name="nationality" id="nationality" placeholder="Nationality" value="<%= author.nationality %>"></input>
+            </div>
+
+            <div class="mb-3 col-md-2">
+                <label class="form-label" for="name">Born</label>
+                <input class="form-control" type="date" name="born" id="born" placeholder="Born" value="<%= author.born %>"><br>
+            </div>
+
+            <div class="mb-3 col-md-2">
+                <label class="form-label" for="name">Died</label>
+                <input class="form-control" type="date" name="died" id="died" placeholder="Died" value="<%= author.died %>"><br>
+            </div>
+
+            <div class="mb-3 col-md-2">
+                <label class="form-label" for="name">Notable Work</label>
+                <input class="form-control" type="text" name="notableWork" id="notableWork" placeholder="Noble Work" value="<%= author.work %>"><br>
+            </div>
+
+            </br>
+            <button class="btn btn-primary" type="submit">Edit</button>
+        </form>
+    </div>
+
+</div>
+
+<%- include('../partials/footer') %>

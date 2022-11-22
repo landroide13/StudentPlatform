@@ -12,8 +12,7 @@ const articleSchema = new mongoose.Schema({
     },
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'Author',
-        default: 'Unknown'
+        ref: 'Author'
     },
     category: {
         type: Schema.Types.ObjectId,
@@ -36,6 +35,9 @@ const articleSchema = new mongoose.Schema({
         type: String,
     },
     designBy:{
+        type: String,
+    },
+    location:{
         type: String,
     }
 })

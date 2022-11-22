@@ -1,25 +1,24 @@
 <%- include('../partials/header') %>
 
-
 <div class="container col-md-8 offset-md-2 mt-5">
-    <h1 class="text-center">Articles</h1>
+    <h1 class="text-center">Authors</h1>
     <hr>
     <ul class="list-group text-center" style="width: 45rem;">
-        <% if(articles.length === 0){ %>
-            <h3 class="text-center">There are No Articles</h3>
+        <% if(authors.length === 0){ %>
+            <h3 class="text-center">There are No Authors</h3>
         <% } else { %>    
-            <% for(let a of articles){ %>
+            <% for(let a of authors){ %>
                 <li class="card mt-3 offset-md-4 text-bg-dark">
                     <div class="card-body">
                         <h4 class="card-title"><%= a.name %></h4>
-                        <h6>Subject: <%= a.category.name %></h6>
+                        <h6>Nationality: <%= a.nationality %></h6>
                         <div class="d-flex justify-content-evenly">
-                            <a class="btn btn-primary" role="button" href="/articles/<%= a._id %>/show">show</a>
-                            <a class="btn btn-success" role="button" href="/articles/<%= a._id %>/edit">Edit</a>
+                            <a class="btn btn-primary" role="button" href="/authors/<%= a._id %>/show">show</a>
+                            <a class="btn btn-success" role="button" href="/authors/<%= a._id %>/edit">Edit</a>
 
                             <% if(profile.role.name === 'Admin') {%>
 
-                                <form action="/articles/<%= a._id %>?_method=DELETE" method="POST">
+                                <form action="/authors/<%= a._id %>?_method=DELETE" method="POST">
                                     <button type="button" class="btn btn-sm btn-danger">Delete</button>
                                 </form>
                                 
@@ -33,5 +32,14 @@
     </ul>
 </div>
 
-
 <%- include('../partials/footer') %>
+
+
+
+
+
+
+
+
+
+

@@ -36,18 +36,19 @@ mongoose.connect(`mongodb://localhost:27017/${testDB1}`)
         })
         .catch(err => console.log(err))
 
+//Uses        
 app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(session({secret: 'secret', resave: false, saveUninitialized: false, cookie: { maxAge: 600000 }}));
+app.use(session({secret: 'secret', resave: false, saveUninitialized: false, cookie: { maxAge: 1600000 }}));
 app.use(flash());
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended: true}));
-app.use(methodoverride('_method'));
 
 app.use(body.json());
 app.use(body.urlencoded({extended: true}))
 
-
+app.use(express.urlencoded({extended: true}));
+app.use(methodoverride('_method'));
 
 ///////////////////////
 //Middleware
@@ -72,8 +73,6 @@ app.use((req, res, next) => {
     next();
 })
 
-
-
 //Get Home
 app.get('/', async(req, res) => {
     res.render('home');
@@ -92,6 +91,14 @@ app.get('/articles',requiredLogin ,async(req, res) => {
     res.render('articles/index', { articles, categories, profile });
 })
 
+//Delete Article
+app.delete('/articles/:id', async(req, res) => {
+    const { id } = req.params;
+    const article = await Article.findByIdAndDelete(id);
+    req.flash('success', 'Successfully Deleted..');
+    res.redirect(`/articles`);
+})
+
 //Create Article by Profile
 app.get('/profiles/:id/articles/new', async(req, res) => {
     const { id } = req.params;
@@ -106,20 +113,19 @@ app.post('/profiles/:id/articles', async(req, res) => {
     const { id } = req.params;
     const profile = await Profile.findById(id);
     const { name , text, category, author } = req.body;
+    const authorA = await Author.findById(author)
     const article = new Article({ name , text, author, category});
-    profile.articles.push(article);
-    article.author = profile;
-    await profile.save();
+    authorA.articles.push(article)
     await article.save();
+    await authorA.save();
     req.flash('success', 'Successfully Created');
-    res.redirect(`/profiles/${id}`);
+    res.redirect(`/articles`);
 });
 
 //Edit Article
 app.get('/articles/:id/edit', async(req, res) =>{
     const { id } = req.params;
     const article = await Article.findById(id).populate('category');
-    const articleCat = await Category.findById(article.category)
     const categories = await Category.find();
     const authors = await Author.find();
     const types = await Type.find();
@@ -141,14 +147,6 @@ app.get('/articles/:id/show', async(req, res) =>{
     res.render(`articles/show`, { article });
 })
 
-
-//Delete Article
-app.delete('/articles/:id', async(req, res) => {
-    const { id } = req.params;
-    const article = await Article.findByIdAndDelete(id);
-    req.flash('success', 'Successfully Deleted..');
-    res.redirect(`/articles`);
-})
 
 /////////////////////////////////////
 //Profile
@@ -200,11 +198,11 @@ app.get('/profiles/:id', async(req, res) => {
     res.render('profiles/show', { profile });
 })
 
+///////////////////////////////////
 //Students
 ///////////////////////////////////
 //Get all Students
 app.get('/students',requiredLogin, async(req, res) => {
-    const { id } = req.params;
     const students = await Student.find();
     res.render('students', { students });
 })
@@ -215,6 +213,71 @@ app.delete('/students/:id', async(req, res) => {
     const student = await Student.findByIdAndDelete(id);
     req.flash('success', 'Successfully Deleted..')
     res.redirect(`/students`);
+})
+
+
+///////////////////
+// Authors
+//////////////////
+
+// Create Authors
+app.get('/profiles/:id/authors/new', async(req, res) => {
+    const { id } = req.params;
+    const profile = await Profile.findById(id);
+    const categories = await Category.find();
+    const types = await Type.find();
+    const authors = await Author.find();
+    res.render('authors/new', { categories, profile, types, authors })
+});
+
+app.post('/profiles/:id/authors', async(req, res) => {
+    const { id } = req.params;
+    const profile = await Profile.findById(id);
+    const { name , nationality, born, died, work } = req.body;
+    const author = new Author({ name ,  nationality, born, died, work, profile });
+    await author.save();
+    req.flash('success', 'Successfully Created');
+    res.redirect(`/articles`);
+});
+
+//Get Authors
+app.get('/authors',requiredLogin ,async(req, res) => {
+    const authors = await Author.find();
+    const id = req.session.profile_id;
+    const profile = await Profile.findById(id).populate('role');
+    const categories = await Category.find();
+    res.render('authors/index', { authors, categories, profile });
+})
+
+//Get Author
+app.get('/authors/:id/show', async(req, res) =>{
+    const { id } = req.params;
+    const idp = req.session.profile_id;
+    const profile = await Profile.findById(idp).populate('role');
+    const author = await Author.findById(id).populate('articles');
+    res.render(`authors/show`, { author, profile });
+})
+
+// Update Author
+app.get('/authors/:id/edit', async(req, res) =>{
+    const { id } = req.params;
+    const author = await Author.findById(id).populate('articles');
+    res.render('authors/edit', { author });
+})
+
+app.put('/authors/:id', async(req, res) => {
+    const { id } = req.params;
+    const article = await Author.findByIdAndUpdate(id, req.body, {runValidators: true, new: true})
+    req.flash('success', 'Successfully Updated..');
+    res.redirect(`/authors`);
+})
+
+//Delete Author
+app.delete('/authors/:id', async(req, res) => {
+    const { id } = req.params;
+    const author = await Author.findByIdAndDelete(id);
+    req.flash('success', 'Successfully Deleted..');
+    res.redirect(`/authors`);
 })
 
 
