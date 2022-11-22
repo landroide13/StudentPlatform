@@ -26,7 +26,8 @@ const Author = require('./models/author');
 const materialRoutes = require('./routes/material');
 app.use('/api/articles', materialRoutes);
 
-
+const categoryRoutes = require('./routes/category');
+app.use('/api/categories', categoryRoutes);
 
 //Connection
 mongoose.connect(`mongodb://localhost:27017/${testDB1}`)
@@ -84,7 +85,7 @@ app.get('/', async(req, res) => {
 
 //Get Articles
 app.get('/articles',requiredLogin ,async(req, res) => {
-    const articles = await Article.find().populate('category').populate('author');
+    const articles = await Article.find().populate('category').populate('author').populate('type');
     const id = req.session.profile_id;
     const profile = await Profile.findById(id).populate('role');
     const categories = await Category.find();

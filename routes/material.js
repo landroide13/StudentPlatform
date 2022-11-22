@@ -9,8 +9,9 @@ router.route('/')
 
 router.route('/:id')
       .get(cors(),helpers.getArticle)
-         
 
+  
+         
 module.exports = router;
 
 
