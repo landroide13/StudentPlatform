@@ -14,13 +14,12 @@
                         <h6>Nationality: <%= a.nationality %></h6>
                         <div class="d-flex justify-content-evenly">
                             <a class="btn btn-primary" role="button" href="/authors/<%= a._id %>/show">show</a>
-                            <a class="btn btn-success" role="button" href="/authors/<%= a._id %>/edit">Edit</a>
-
-                            <% if(profile.role.name === 'Admin') {%>
+                    
+                            <% if(profile.role.name === 'Admin'){ %>
 
                                 <form action="/authors/<%= a._id %>?_method=DELETE" method="POST">
                                     <button type="button" class="btn btn-sm btn-danger">Delete</button>
-                                </form>
+                                </form> 
                                 
                             <% } %>
                             

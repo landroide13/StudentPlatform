@@ -4,22 +4,23 @@
 
     <div class="card text-bg-dark mt-3">
         <div class="card-body">
-            <h4 class="card-title"><%= author.name %></h4>
-            <p class="card-text"><%= author.nationality %></p>
+            <h4 class="card-title">Name: <%= author.name %></h4>
+            <p class="card-text">Nationality: <%= author.nationality %></p>
+            
             
             <% if(author.articles){%>
+                <h5>Works</h5>
                  <% for(let ar of author.articles) { %>
-                    <h5>Works</h5>
                     <ul>
                         <li><%= ar.name %></li>
                     </ul>
                 <% } %>
             <% } else { %>
-                <p>Unknown</p>
-            <% } %>    
+                <p>No works</p>
+            <% } %>  
+            <a class="btn btn-success" role="button" href="/authors/<%= author._id %>/edit">Edit</a>  
         </div>
     </div>
-
 
 </div>
 

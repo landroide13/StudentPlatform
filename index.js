@@ -29,6 +29,9 @@ app.use('/api/articles', materialRoutes);
 const categoryRoutes = require('./routes/category');
 app.use('/api/categories', categoryRoutes);
 
+const authorRoutes = require('./routes/author');
+app.use('/api/authors', authorRoutes);
+
 //Connection
 mongoose.connect(`mongodb://localhost:27017/${testDB1}`)
         .then(() => {
@@ -91,16 +94,8 @@ app.get('/articles',requiredLogin ,async(req, res) => {
     res.render('articles/index', { articles, categories, profile });
 })
 
-//Delete Article
-app.delete('/articles/:id', async(req, res) => {
-    const { id } = req.params;
-    const article = await Article.findByIdAndDelete(id);
-    req.flash('success', 'Successfully Deleted..');
-    res.redirect(`/articles`);
-})
-
 //Create Article by Profile
-app.get('/profiles/:id/articles/new', async(req, res) => {
+app.get('/profiles/:id/articles/new',requiredLogin, async(req, res) => {
     const { id } = req.params;
     const profile = await Profile.findById(id);
     const categories = await Category.find();
@@ -123,7 +118,7 @@ app.post('/profiles/:id/articles', async(req, res) => {
 });
 
 //Edit Article
-app.get('/articles/:id/edit', async(req, res) =>{
+app.get('/articles/:id/edit',requiredLogin, async(req, res) =>{
     const { id } = req.params;
     const article = await Article.findById(id).populate('category');
     const categories = await Category.find();
@@ -132,7 +127,7 @@ app.get('/articles/:id/edit', async(req, res) =>{
     res.render('articles/edit', { article, categories, authors, types });
 })
 
-app.put('/articles/:id', async(req, res) => {
+app.put('/articles/:id', requiredLogin, async(req, res) => {
     const { id } = req.params;
     const article = await Article.findByIdAndUpdate(id, req.body, {runValidators: true, new: true})
     const author = article.author;
@@ -141,10 +136,19 @@ app.put('/articles/:id', async(req, res) => {
 })
 
 //Get Article
-app.get('/articles/:id/show', async(req, res) =>{
+app.get('/articles/:id/show',requiredLogin, async(req, res) =>{
     const { id } = req.params;
-    const article = await Article.findById(id).populate('author').populate('category');
+    const article = await Article.findById(id).populate('author').populate('category').populate('type');
     res.render(`articles/show`, { article });
+})
+
+//Delete Article
+app.delete('/articles/:id', async(req, res) => {
+    const { id } = req.params;
+    console.log("article " + id);
+    const article = await Article.findByIdAndDelete(id);
+    req.flash('success', 'Successfully Deleted..');
+    res.redirect(`/articles`);
 })
 
 
@@ -210,6 +214,7 @@ app.get('/students',requiredLogin, async(req, res) => {
 //Delete Student
 app.delete('/students/:id', async(req, res) => {
     const { id } = req.params;
+    console.log("student " + id);
     const student = await Student.findByIdAndDelete(id);
     req.flash('success', 'Successfully Deleted..')
     res.redirect(`/students`);
@@ -221,7 +226,7 @@ app.delete('/students/:id', async(req, res) => {
 //////////////////
 
 // Create Authors
-app.get('/profiles/:id/authors/new', async(req, res) => {
+app.get('/profiles/:id/authors/new', requiredLogin, async(req, res) => {
     const { id } = req.params;
     const profile = await Profile.findById(id);
     const categories = await Category.find();
@@ -259,7 +264,7 @@ app.get('/authors/:id/show', async(req, res) =>{
 })
 
 // Update Author
-app.get('/authors/:id/edit', async(req, res) =>{
+app.get('/authors/:id/edit', requiredLogin, async(req, res) =>{
     const { id } = req.params;
     const author = await Author.findById(id).populate('articles');
     res.render('authors/edit', { author });
