@@ -12,6 +12,7 @@ const body = require('body-parser');
 //DBs
 const db1 = 'StudentMaterialDB';
 const testDB1 = 'testDB1';
+const material = 'StudentPlatform1';
 
 //Models
 const Category = require('./models/category')
@@ -33,7 +34,7 @@ const authorRoutes = require('./routes/author');
 app.use('/api/authors', authorRoutes);
 
 //Connection
-mongoose.connect(`mongodb://localhost:27017/${testDB1}`)
+mongoose.connect(`mongodb://localhost:27017/${material}`)
         .then(() => {
             console.log("Connection Open")
         })
@@ -94,6 +95,13 @@ app.get('/articles',requiredLogin ,async(req, res) => {
     res.render('articles/index', { articles, categories, profile });
 })
 
+//Get Article
+app.get('/articles/:id/show',requiredLogin, async(req, res) =>{
+    const { id } = req.params;
+    const article = await Article.findById(id).populate('author').populate('category').populate('type');
+    res.render(`articles/show`, { article });
+})
+
 //Create Article by Profile
 app.get('/profiles/:id/articles/new',requiredLogin, async(req, res) => {
     const { id } = req.params;
@@ -135,12 +143,7 @@ app.put('/articles/:id', requiredLogin, async(req, res) => {
     res.redirect(`/articles`);
 })
 
-//Get Article
-app.get('/articles/:id/show',requiredLogin, async(req, res) =>{
-    const { id } = req.params;
-    const article = await Article.findById(id).populate('author').populate('category').populate('type');
-    res.render(`articles/show`, { article });
-})
+
 
 //Delete Article
 app.delete('/articles/:id', async(req, res) => {

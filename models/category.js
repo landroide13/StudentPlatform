@@ -5,7 +5,13 @@ const categorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    onArticle:[
+     {
+        type: Schema.Types.ObjectId,
+        ref: 'Article'
     }
+    ]
 })
 
 const Category = mongoose.model('Category', categorySchema)
